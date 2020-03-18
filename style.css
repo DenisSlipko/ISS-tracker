@@ -1,0 +1,78 @@
+#map {
+    height: 100%;
+    min-height: 400px;
+    width: 100%;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.left-box {
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.astonavts {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    width: 90%;
+    padding-left: 10px;
+    height: 50px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+}
+.astronavts-box{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+.TotalAmount{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-top: 2px solid black;
+    align-items: center;
+    justify-content: center;
+}
+.locate-title{
+    color: #000;
+    font-weight: bold;
+}
+.locate-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    height: 70px;
+    padding-left: 20px;
+}
+.time-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000;
+    margin-bottom: 10px;
+    height: 70px;
+}
+.right-box{
+    height: 100%;
+}
+.content{
+    border: 2px solid black;
+    padding: 10px;
+}
