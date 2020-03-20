@@ -32,6 +32,8 @@ const formattedDate = `${dayName}, ${date} ${monthName} ${year}`;
 function initMap() {
     var cords;
     cords ={lat: -25.363, lng: 131.044};
+    var people;
+    var astronavts;
 
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 2,
@@ -44,7 +46,14 @@ function initMap() {
         title: ''
     });
 
-    setInterval(function loadData() {
+    $('<span>', {class: 'Location', text: "longitude:" + cords.lng + "," + "latitude:" + cords.lat}).appendTo('.locate-header');
+    $('<span>', {
+        class: 'Time',
+        text: 'Curent UTC TIME: ' + time.getUTCHours() + " : " + (time.getUTCMinutes()<10 ? ('0'+time.getUTCMinutes()) : (''+time.getUTCMinutes()))
+    }).appendTo('.time-box');
+    $('<span>', {class: 'TimeDate',text: formattedDate}).appendTo('.time-box');
+
+    setInterval(function () {
         $.ajax({
             type: 'GET',
             url: "http://api.open-notify.org/iss-now.json",
@@ -64,14 +73,6 @@ function initMap() {
         time = new Date();
         $('.Time').html('Curent UTC TIME: ' + time.getUTCHours() + " : " +  (time.getUTCMinutes()<10 ? ('0'+time.getUTCMinutes()) : (''+time.getUTCMinutes())));
         $('.TimeDate').html(formattedDate);
-    }, 5000);
-        $('<span>', {class: 'Location', text: "longitude:" + cords.lng + "," + "latitude:" + cords.lat}).appendTo('.locate-header');
-        $('<span>', {
-            class: 'Time',
-            text: 'Curent UTC TIME: ' + time.getUTCHours() + " : " + (time.getUTCMinutes()<10 ? ('0'+time.getUTCMinutes()) : (''+time.getUTCMinutes()))
-        }).appendTo('.time-box');
-        $('<span>', {class: 'TimeDate',text: formattedDate}).appendTo('.time-box');
-        
         $.ajax({
             type: "GET",
             url: "http://api.open-notify.org/astros.json",
@@ -79,19 +80,32 @@ function initMap() {
                 xhr.overrideMimeType("text/plain; charset=x-user-defined");
             }
         })
-        .done(function (data) {
-                var people;
-                var astronavts;
+            .done(function(data) {
                 people = JSON.parse(data);
                 astronavts = people.people;
+                $('.astronavts people').html(astronavts);
+            })
+    }, 5000);
+
+        $.ajax({
+            type: "GET",
+            url: "http://api.open-notify.org/astros.json",
+            beforeSend: function (xhr) {
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            }
+        })
+            .done(function (data) {
+                people = JSON.parse(data);
+                astronavts = people.people; 
                     for (var i = 0; i < astronavts.length; i++) { astronavts[i]['craft'] == "ISS" ?
-                        $('<div>', {class: 'astonavts people' + i, text: astronavts[i]['name']}).appendTo('.astronavts-box')
+                        $('<div>', {class: 'astronavts people' + i, text: astronavts[i]['name']}).appendTo('.astronavts-box')
                         : undefined;
                     }
-                $('<img>', {src: 'people.png', width: '20', height: '20'}).appendTo('.astonavts');
+                $('<img>', {src: 'people.png', width: '20', height: '20'}).appendTo('.astronavts');
                 $('<span>', {
                     class: 'TotalAmount',
                     text: 'Total amount:' + " " + astronavts.length + " people on ISS"
                 }).appendTo('.astronavts-box');
-        });
-}
+            });
+        
+};
